@@ -22,7 +22,10 @@ public class InputManager : MonoBehaviour
     private void OnEnable()
     {
         controls.Player.Mouvement.performed += Move;
+        controls.Player.Mouvement.canceled += Move;
+        
         controls.Player.Tourner.performed += Tourner;
+        controls.Player.Tourner.canceled += Tourner;
 
         controls.Player.Viser.performed += ctx => isAimingInput = true;
         controls.Player.Viser.canceled += ctx => isAimingInput = false;

@@ -5,18 +5,33 @@ using UnityEngine;
 public class Tourner : MonoBehaviour
 {
 
+    [SerializeField] private float sensitivity = 1;
+    [SerializeField] private float yClamp = 60;
+    
     private float xRotation = 0;
 
-    // Update is called once per frame
+    private void Awake()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+    
     void Update()
     {
-        transform.Rotate(Vector3.up * InputManager.tournerInput.x);
+        RotateCamera();
+    }
 
-        xRotation -= InputManager.tournerInput.y;
-        xRotation = Mathf.Clamp(xRotation, -60, 60);
+    private void RotateCamera()
+    {
+        Vector2 input = InputManager.tournerInput;
+        
+        // Rotation autour de l'axe Y (gauche et droite)
+        transform.Rotate(Vector3.up * (input.x * sensitivity));
 
-        transform.localEulerAngles = new Vector3(xRotation, this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
+        // Rotation autour de l'axe X (haut et bas)
+        xRotation -= input.y; 
+        xRotation = Mathf.Clamp(xRotation, -yClamp, yClamp); // Clamp pour éviter une rotation trop grande
 
-
+        transform.localEulerAngles = new Vector3(xRotation, transform.localEulerAngles.y, 0);
     }
 }
