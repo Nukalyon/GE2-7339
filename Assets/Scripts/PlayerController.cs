@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float vitesse = 5;
+    [SerializeField] private Animator animator;
 
     Rigidbody rb;
     private bool isMoving = false;
@@ -82,5 +83,9 @@ public class PlayerController : MonoBehaviour
         //Calculer la rotation à appliquer au Rigidbody
         Quaternion targetRotation = Quaternion.LookRotation(moveDirection); 
         rb.rotation = targetRotation;
+
+        animator.SetFloat("xVitesse", rb.velocity.x);
+        animator.SetFloat("zVitesse", rb.velocity.z);
+
     }
 }
